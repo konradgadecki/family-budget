@@ -44,6 +44,7 @@ public static class Extensions
         services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
         services.AddSingleton<IPasswordManager, PasswordManager>();
         services.AddSingleton<IClock, Clock>();
+        services.AddSingleton<IBudgetRepository, InMemoryBudgetRepository>();
         services.AddSingleton<IUserRepository, InMemoryUserRepository>();
         services.AddAuth();
 

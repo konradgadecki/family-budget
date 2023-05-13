@@ -1,6 +1,9 @@
 ﻿using FamilyBudget.Application.Abstractions;
 using FamilyBudget.Application.Commands;
 using FamilyBudget.Application.Commands.Handlers;
+using FamilyBudget.Application.DTO;
+using FamilyBudget.Application.Queries;
+using FamilyBudget.Application.Queries.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FamilyBudget.Application;
@@ -11,6 +14,7 @@ public static class Extensions
     {
         services.AddScoped<ICommandHandler<SignIn>, SignInHandler>();
         services.AddScoped<ICommandHandler<SignUp>, SignUpHandler>();
+        services.AddScoped<IQueryHandler<FetchBudgets, IEnumerable<BudgetDto>>, FetchBudgetsHandler>();
 
         return services;
     }
