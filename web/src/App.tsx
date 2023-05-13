@@ -1,3 +1,4 @@
+import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Layout from "./components/Layout";
 
@@ -7,8 +8,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* <Route path="sign-up" element={<SignUp />} /> */}
-        <Route path="/" element={<SignUp />} />
+        <Route path="sign-in" element={<SignIn />} />
+        <Route path="sign-up" element={<SignUp />} />
       </Route>
     </Routes>
   );

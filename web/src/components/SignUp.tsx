@@ -14,7 +14,6 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&]).{8,24}$/;
 
 const SignUp = () => {
   const emailRef = createRef<HTMLInputElement>();
-
   const errRef = createRef<HTMLInputElement>();
 
   const navigate = useNavigate();
