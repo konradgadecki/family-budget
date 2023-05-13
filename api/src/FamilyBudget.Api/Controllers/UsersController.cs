@@ -32,10 +32,22 @@ public class UsersController : ControllerBase
         SignIn command)
     {
         await signInHandler.HandleAsync(command);
+
         var jwt = _tokenStorage.Get();
         return jwt;
     }
 
+    [HttpPost("sign-up")]
+    [SwaggerOperation("Sign up the user")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<JwtDto>> Post(
+        [FromServices] ICommandHandler<SignUp> signUpHandler,
+        SignUp command)
+    {
+        command = command with { UserId = Guid.NewGuid() };
+        await signUpHandler.HandleAsync(command);
 
-    
+        return NoContent();
+    }
 }

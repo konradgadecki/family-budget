@@ -1,3 +1,5 @@
+using FamilyBudget.Core.Exceptions;
+
 namespace FamilyBudget.Core.ValueObjects;
 
 public sealed record Password

@@ -1,8 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using FamilyBudget.Infrastructure.Auth;
-using Microsoft.AspNetCore.Builder;
+using FamilyBudget.Application.Auth;
+using FamilyBudget.Core.Abstractions;
+using FamilyBudget.Core.Entities;
 using FamilyBudget.Core.Repositories;
+using FamilyBudget.Infrastructure.Auth;
 using FamilyBudget.Infrastructure.DAL.Repository;
 
 namespace FamilyBudget.Infrastructure;
@@ -25,7 +29,11 @@ public static class Extensions
             });
         });
 
-        services.AddScoped<IUserRepository, InMemoryUserRepository>();
+
+        services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+        services.AddSingleton<IPasswordManager, PasswordManager>();
+        services.AddSingleton<IClock, Clock>();
+        services.AddSingleton<IUserRepository, InMemoryUserRepository>();
         services.AddAuth();
 
         return services;
