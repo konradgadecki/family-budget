@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 import axios from "../api/axios";
-const SIGN_UP_URL = "/Users/sign-up";
-const LOGIN_URL = "/Users/sign-in";
+import { LOGIN_URL, SIGN_UP_URL } from "../utils/navigation";
 
 export const signIn = async (email: string, pwd: string) => {
   try {

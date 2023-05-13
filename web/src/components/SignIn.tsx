@@ -4,6 +4,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { signIn } from "../services/AuthService";
 import { isAxiosError } from "axios";
+import { ROLES } from "../utils/constants";
+import { NAVIGATION } from "../utils/navigation";
 
 const SignIn = () => {
   const { setAuth } = useAuth();
@@ -33,10 +35,9 @@ const SignIn = () => {
     try {
       const response = await signIn(email, pwd);
       const accessToken = response?.data?.accessToken;
-      // const roles = ["admin", "user"];
+      const roles = [ROLES.USER];
 
-      debugger;
-      setAuth({ email, pwd, accessToken });
+      setAuth({ email, pwd, roles, accessToken });
       setEmail("");
       setPwd("");
 
@@ -91,7 +92,7 @@ const SignIn = () => {
         Need an Account?
         <br />
         <span className="line">
-          <Link to="/sign-up">Sign Up</Link>
+          <Link to={`/${NAVIGATION.SIGN_UP}`}>Sign Up</Link>
         </span>
       </p>
     </section>

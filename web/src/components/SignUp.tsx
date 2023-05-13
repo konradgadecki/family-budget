@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { isAxiosError } from "axios";
 import { signUp } from "../services/AuthService";
+import { NAVIGATION } from "../utils/navigation";
 
 const EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&]).{8,24}$/;
@@ -247,7 +248,7 @@ const SignUp = () => {
             Already signed up?
             <br />
             <span className="line">
-              <Link to="/sign-in">Sign In</Link>
+              <Link to={`/${NAVIGATION.SIGN_IN}`}>Sign In</Link>
             </span>
           </p>
         </section>
