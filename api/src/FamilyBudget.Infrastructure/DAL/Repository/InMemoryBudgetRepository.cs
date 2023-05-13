@@ -11,9 +11,11 @@ internal class InMemoryBudgetRepository : IBudgetRepository
     {
         _budgets = new List<Budget>()
         {
-            new Budget("April", 15000),
-            new Budget("May", 10000),
-            new Budget("June", 20000),
+            new Budget("April", "Selfcare", 15000, 14000),
+            new Budget("May", "Travel", 10000, 12500),
+            new Budget("June", "Health", 20000, 14000),
+            new Budget("June", "Entertainment", 1500, 14000),
+            new Budget("June", "Work", 45000, 140),
         };
     }
 

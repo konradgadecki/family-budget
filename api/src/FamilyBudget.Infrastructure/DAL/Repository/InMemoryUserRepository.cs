@@ -8,6 +8,8 @@ namespace FamilyBudget.Infrastructure.DAL.Repository
     internal class InMemoryUserRepository : IUserRepository
     {
         private const string PASSWORD = "AQAAAAIAAYagAAAAENLG7z25ckkVhX58acf0u5UkUacf2xdp4YfBoi1uoSGQ3f9raKXYFalMdocIAkhxRA=="; //password
+        private const string KOGA_PASS = "AQAAAAIAAYagAAAAED7fGHRSw/TWJETt3oh3wEOyo5oHUVHmZEm/s3AFxA7QkA8Y/BQjCIdjgnLTVogm2w==";
+
         private readonly List<User> _users;
 
         public InMemoryUserRepository(IClock clock)
@@ -16,7 +18,8 @@ namespace FamilyBudget.Infrastructure.DAL.Repository
             {
                 new User(Guid.NewGuid(), "johndoe@familybudget.com", PASSWORD, "admin", clock.Current()),
                 new User(Guid.NewGuid(), "michaeljackson@familybudget.com", PASSWORD, "user", clock.Current()),
-                new User(Guid.NewGuid(), "freddiemercury@familybudget.com", PASSWORD, "user", clock.Current())
+                new User(Guid.NewGuid(), "freddiemercury@familybudget.com", PASSWORD, "user", clock.Current()),
+                new User(Guid.NewGuid(), "koga@gmail.com", KOGA_PASS, "user", clock.Current())
             };
         }
 

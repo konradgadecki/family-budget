@@ -8,7 +8,10 @@ public static class Extensions
     public static BudgetDto AsDto(this Budget entity)
         => new()
         {
-            Name = entity.Name,
-            Amount = entity.Amount
+            Month = entity.Month,
+            Category = entity.Category,
+            Income = entity.Income,
+            Expenses = entity.Expenses,
+            NetIncome = entity.Income - entity.Expenses
         };
 }

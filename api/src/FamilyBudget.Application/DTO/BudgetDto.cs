@@ -2,6 +2,9 @@
 
 public class BudgetDto
 {
-    public string Name { get; set; }
-    public decimal Amount { get; set; }
+    public string Month { get; set; }
+    public string Category { get; set; }
+    public decimal Income { get; set; }
+    public decimal Expenses { get; set; }
+    public decimal NetIncome { get; set; }
 }

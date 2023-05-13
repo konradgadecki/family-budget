@@ -60,7 +60,7 @@ const SignIn = () => {
     <section>
       <p
         ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
+        className={errMsg ? "errorMessage" : "offscreen"}
         aria-live="assertive"
       >
         {errMsg}

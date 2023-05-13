@@ -2,13 +2,16 @@
 
 public class Budget
 {
+    public string Month { get; set; }
+    public string Category { get; set; }
+    public decimal Income { get; set; }
+    public decimal Expenses { get; set; }
 
-    public string Name { get; set; }
-    public decimal Amount { get; set; }
-
-    public Budget(string name, decimal amount)
+    public Budget(string month, string category, decimal income, decimal expenses)
     {
-        Name = name;
-        Amount = amount;
+        Month = month;
+        Category = category;
+        Income = income;
+        Expenses = expenses;
     }
 }

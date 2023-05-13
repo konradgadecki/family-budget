@@ -1,4 +1,5 @@
 using FamilyBudget.Application.Abstractions;
+using FamilyBudget.Application.Commands;
 using FamilyBudget.Application.DTO;
 using FamilyBudget.Application.Queries;
 using Microsoft.AspNetCore.Authorization;
@@ -22,5 +23,21 @@ public class BudgetsController : ControllerBase
         var budgets = await fetchHandler.HandleAsync(new FetchBudgets());
 
         return Ok(budgets);
+    }
+
+    [Authorize]
+    [HttpPost]
+    [SwaggerOperation("Create new budget")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<BudgetDto>>> Post(
+        //[FromServices] ICommandHandler<CreateBudget> createHandler,
+        CreateBudget command
+        )
+    {
+        //var budgets = await fetchHandler.HandleAsync(new FetchBudgets());
+
+        await Task.CompletedTask;
+        return Ok();
     }
 }
