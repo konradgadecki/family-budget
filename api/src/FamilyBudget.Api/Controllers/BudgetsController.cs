@@ -1,6 +1,7 @@
 using FamilyBudget.Application.Abstractions;
 using FamilyBudget.Application.DTO;
 using FamilyBudget.Application.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -10,6 +11,7 @@ namespace FamilyBudget.Api.Controllers;
 [Route("[controller]")]
 public class BudgetsController : ControllerBase
 {
+    [Authorize]
     [HttpGet]
     [SwaggerOperation("Get all budgets")]
     [ProducesResponseType(StatusCodes.Status200OK)]
