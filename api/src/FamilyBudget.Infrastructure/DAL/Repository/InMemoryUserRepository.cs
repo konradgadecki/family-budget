@@ -7,15 +7,16 @@ namespace FamilyBudget.Infrastructure.DAL.Repository
 {
     internal class InMemoryUserRepository : IUserRepository
     {
+        private const string PASSWORD = "AQAAAAIAAYagAAAAENLG7z25ckkVhX58acf0u5UkUacf2xdp4YfBoi1uoSGQ3f9raKXYFalMdocIAkhxRA=="; //password
         private readonly List<User> _users;
 
         public InMemoryUserRepository(IClock clock)
         {
             _users = new List<User>()
             {
-                new User(Guid.NewGuid(), "johndoe@familybudget.com", "password", "admin", clock.Current()),
-                new User(Guid.NewGuid(), "michaeljackson@familybudget.com", "password", "user", clock.Current()),
-                new User(Guid.NewGuid(), "freddiemercury@familybudget.com", "password", "user", clock.Current())
+                new User(Guid.NewGuid(), "johndoe@familybudget.com", PASSWORD, "admin", clock.Current()),
+                new User(Guid.NewGuid(), "michaeljackson@familybudget.com", PASSWORD, "user", clock.Current()),
+                new User(Guid.NewGuid(), "freddiemercury@familybudget.com", PASSWORD, "user", clock.Current())
             };
         }
 
