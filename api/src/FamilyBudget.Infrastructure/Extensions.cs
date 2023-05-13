@@ -15,6 +15,17 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowMyOrigin",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000") // your client's origin
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
+                });
+        });
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddHttpContextAccessor();
@@ -41,6 +52,8 @@ public static class Extensions
 
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
+        app.UseCors("AllowMyOrigin");
+
         app.UseSwagger();
         app.UseSwaggerUI(reDoc =>
         {
