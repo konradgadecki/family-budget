@@ -16,7 +16,7 @@ public sealed record UserId
         Value = value;
     }
 
-    public static implicit operator Guid(UserId date) => date.Value;
+    public static implicit operator Guid(UserId id) => id.Value;
     
     public static implicit operator UserId(Guid value) => new(value);
 }

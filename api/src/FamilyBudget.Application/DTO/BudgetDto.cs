@@ -7,4 +7,5 @@ public class BudgetDto
     public decimal Income { get; set; }
     public decimal Expenses { get; set; }
     public decimal NetIncome { get; set; }
+    public bool Shared { get; set; }
 }

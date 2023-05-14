@@ -11,9 +11,7 @@ type SortConfig = {
 };
 
 function BudgetTable({ budgets }: { budgets: Array<Budget> }) {
-  const [filteredBudgets, setFilteredBudgets] = useState<Budget[]>([
-    ...budgets,
-  ]);
+  const [filteredBudgets, setFilteredBudgets] = useState<Budget[]>(budgets);
   const [filterValue, setFilterValue] = useState("");
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "month",
@@ -90,6 +88,7 @@ function BudgetTable({ budgets }: { budgets: Array<Budget> }) {
             <th onClick={() => handleSort("netIncome")}>
               Net Income {renderSortIndicator("netIncome")}
             </th>
+            <th>Shared</th>
           </tr>
         </thead>
         <tbody>
@@ -106,6 +105,7 @@ function BudgetTable({ budgets }: { budgets: Array<Budget> }) {
               >
                 {budget.netIncome}
               </td>
+              <td>{budget.shared ? "yes" : "no"}</td>
             </tr>
           ))}
         </tbody>

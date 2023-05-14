@@ -3,7 +3,7 @@ using FamilyBudget.Application.DTO;
 
 namespace FamilyBudget.Application.Queries;
 
-public class FetchBudgets : IQuery<IEnumerable<BudgetDto>>
+public class FetchBudgets : IQuery<IEnumerable<BudgetsDto>>
 {
-
+    public Guid UserId { get; set; }
 }

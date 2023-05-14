@@ -11,17 +11,6 @@ namespace FamilyBudget.Api.Controllers;
 [Route("[controller]")]
 public class UsersController : ControllerBase
 {
-    [HttpGet("{userId:guid}")]
-    [SwaggerOperation("Get a user by id")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<UserDto> Get(Guid userId)
-    {
-        var user = new UserDto() { Id = userId, Username = "Konrad" };
-
-        return user;
-    }
-
     [HttpPost("sign-in")]
     [SwaggerOperation("Sign the user in and return the JSON Web Token")]
     [ProducesResponseType(StatusCodes.Status200OK)]

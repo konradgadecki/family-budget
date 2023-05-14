@@ -5,6 +5,7 @@ using FamilyBudget.Application.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Security.Claims;
 
 namespace FamilyBudget.Api.Controllers;
 
@@ -17,10 +18,11 @@ public class BudgetsController : ControllerBase
     [SwaggerOperation("Get all budgets")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<BudgetDto>>> Get(
-        [FromServices] IQueryHandler<FetchBudgets, IEnumerable<BudgetDto>> fetchHandler)
+    public async Task<ActionResult<IEnumerable<BudgetsDto>>> Get(
+        [FromServices] IQueryHandler<FetchBudgets, IEnumerable<BudgetsDto>> fetchHandler)
     {
-        var budgets = await fetchHandler.HandleAsync(new FetchBudgets());
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var budgets = await fetchHandler.HandleAsync(new FetchBudgets() { UserId = Guid.Parse(userId) });
 
         return Ok(budgets);
     }
@@ -30,14 +32,14 @@ public class BudgetsController : ControllerBase
     [SwaggerOperation("Create new budget")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<BudgetDto>>> Post(
-        //[FromServices] ICommandHandler<CreateBudget> createHandler,
+    public async Task<ActionResult> Post(
+        [FromServices] ICommandHandler<CreateBudget> createHandler,
         CreateBudget command
         )
     {
-        //var budgets = await fetchHandler.HandleAsync(new FetchBudgets());
-
-        await Task.CompletedTask;
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        await createHandler.HandleAsync(command with { UserId = Guid.Parse(userId) });
+     
         return Ok();
     }
 }

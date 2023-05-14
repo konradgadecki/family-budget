@@ -53,8 +53,9 @@ a, a:visited {
 
 input[type="text"],
 input[type="password"],
-input[type="number"],
+input[type="number"], 
 button,
+select,
 textarea {
   font-family: 'Nunito', sans-serif;
   font-size: 22px;

@@ -19,7 +19,7 @@ namespace FamilyBudget.Infrastructure.DAL.Repository
                 new User(Guid.NewGuid(), "johndoe@familybudget.com", PASSWORD, "admin", clock.Current()),
                 new User(Guid.NewGuid(), "michaeljackson@familybudget.com", PASSWORD, "user", clock.Current()),
                 new User(Guid.NewGuid(), "freddiemercury@familybudget.com", PASSWORD, "user", clock.Current()),
-                new User(Guid.NewGuid(), "koga@gmail.com", KOGA_PASS, "user", clock.Current())
+                new User(Guid.Parse("77777777-7777-7777-7777-777777777777"), "koga@gmail.com", KOGA_PASS, "user", clock.Current())
             };
         }
 
@@ -28,6 +28,13 @@ namespace FamilyBudget.Infrastructure.DAL.Repository
             await Task.CompletedTask;
 
             return _users.SingleOrDefault(x => x.Email == email);
+        }
+
+        public async Task<User> GetByIdAsync(UserId id)
+        {
+            await Task.CompletedTask;
+
+            return _users.SingleOrDefault(x => x.Id == id);
         }
 
         public Task AddAsync(User user)

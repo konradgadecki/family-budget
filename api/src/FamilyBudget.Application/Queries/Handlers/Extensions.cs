@@ -12,6 +12,7 @@ public static class Extensions
             Category = entity.Category,
             Income = entity.Income,
             Expenses = entity.Expenses,
-            NetIncome = entity.Income - entity.Expenses
+            NetIncome = entity.Income - entity.Expenses,
+            Shared = entity.Shared,
         };
 }

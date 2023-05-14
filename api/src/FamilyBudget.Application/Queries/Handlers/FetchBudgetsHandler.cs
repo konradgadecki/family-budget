@@ -4,7 +4,7 @@ using FamilyBudget.Core.Repositories;
 
 namespace FamilyBudget.Application.Queries.Handlers;
 
-internal class FetchBudgetsHandler : IQueryHandler<FetchBudgets, IEnumerable<BudgetDto>>
+internal class FetchBudgetsHandler : IQueryHandler<FetchBudgets, IEnumerable<BudgetsDto>>
 {
     private readonly IBudgetRepository _repository;
 
@@ -13,10 +13,18 @@ internal class FetchBudgetsHandler : IQueryHandler<FetchBudgets, IEnumerable<Bud
         _repository = repository;
     }
 
-    public async Task<IEnumerable<BudgetDto>> HandleAsync(FetchBudgets query)
+    public async Task<IEnumerable<BudgetsDto>> HandleAsync(FetchBudgets query)
     {
-        var budgets = await _repository.FetchBudgetsAsync();
+        var budgets = await _repository.FetchBudgetsAsync(query.UserId);
 
-        return budgets.Select(x => x.AsDto());
+        return budgets.Select(x => new BudgetsDto() 
+        { 
+            User = new UserDto()
+            {
+                Id = x.Key.Id,
+                Email = x.Key.Email
+            },
+            Budgets = x.Value.Select(x => x.AsDto())
+        });
     }
 }

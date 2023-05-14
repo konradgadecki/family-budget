@@ -24,14 +24,16 @@ export const fetchBudgets = async (
 
 export const createBudget = async (
   month: string,
+  category: string,
   income: number,
   expenses: number,
+  shared: boolean,
   token: string | undefined
 ) => {
   try {
     const response: AxiosResponse = await axios.post(
       CREATE_BUDGET,
-      JSON.stringify({ month, income, expenses }),
+      JSON.stringify({ month, category, income, expenses, shared }),
       {
         headers: {
           "Content-Type": "application/json",
