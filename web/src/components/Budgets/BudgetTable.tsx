@@ -9,7 +9,7 @@ import { SortDirection } from "../../types/utilsTypes";
 
 import "./Budgets.css";
 
-function BudgetTable({ budgets }: BudgetTableProps) {
+function BudgetTable({ budgets, categories }: BudgetTableProps) {
   const [filteredBudgets, setFilteredBudgets] =
     useState<Array<Budget>>(budgets);
   const [filterValue, setFilterValue] = useState("");
@@ -26,14 +26,19 @@ function BudgetTable({ budgets }: BudgetTableProps) {
     const value = e.target.value;
     setFilterValue(value);
 
-    const filteredBudgets = budgets.filter(
-      (budget) =>
+    const filteredBudgets = budgets.filter((budget) => {
+      const categoryMatch = categories[budget.categoryId]
+        ?.toLowerCase()
+        .includes(value.toLowerCase());
+      const otherMatches =
         budget.month.toLowerCase().includes(value.toLowerCase()) ||
-        budget.category.toLowerCase().includes(value.toLowerCase()) ||
         budget.income.toString().includes(value.toString()) ||
         budget.expenses.toString().includes(value.toString()) ||
-        budget.netIncome.toString().includes(value.toString())
-    );
+        budget.netIncome.toString().includes(value.toString());
+
+      return categoryMatch || otherMatches;
+    });
+
     setFilteredBudgets(filteredBudgets);
   };
 
@@ -76,8 +81,8 @@ function BudgetTable({ budgets }: BudgetTableProps) {
             <th onClick={() => handleSort("month")}>
               Month {renderSortIndicator("month")}
             </th>
-            <th onClick={() => handleSort("category")}>
-              Category {renderSortIndicator("category")}
+            <th onClick={() => handleSort("categoryId")}>
+              Category {renderSortIndicator("categoryId")}
             </th>
             <th onClick={() => handleSort("income")}>
               Income {renderSortIndicator("income")}
@@ -95,7 +100,7 @@ function BudgetTable({ budgets }: BudgetTableProps) {
           {filteredBudgets.map((budget, index) => (
             <tr key={index}>
               <td>{budget.month}</td>
-              <td>{budget.category}</td>
+              <td>{categories[budget.categoryId]}</td>
               <td>{budget.income}</td>
               <td>{budget.expenses}</td>
               <td

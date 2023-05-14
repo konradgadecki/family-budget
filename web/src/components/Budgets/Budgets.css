@@ -93,6 +93,7 @@
 
 .create-budget-table input[type="text"],
 .create-budget-table input[type="number"],
+.create-budget-table select,
 .create-budget-table input[type="checkbox"] {
   width: 100%;
   padding: 6px;

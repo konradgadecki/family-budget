@@ -10,7 +10,7 @@ public class User
     public Role Role { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
-    public User(UserId id, Email email, Password password, Role role, DateTime createdAt)
+    public User(UserId id, Email email, Password password, Role role,  DateTime createdAt)
     {
         Id = id;
         Email = email;

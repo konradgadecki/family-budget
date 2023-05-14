@@ -1,10 +1,7 @@
 ﻿using FamilyBudget.Application.Abstractions;
-using FamilyBudget.Application.Auth;
 using FamilyBudget.Application.Exceptions;
-using FamilyBudget.Core.Abstractions;
 using FamilyBudget.Core.Entities;
 using FamilyBudget.Core.Repositories;
-using FamilyBudget.Core.ValueObjects;
 
 namespace FamilyBudget.Application.Commands.Handlers;
 
@@ -23,10 +20,16 @@ internal sealed class CreateBudgetHandler : ICommandHandler<CreateBudget>
     {
         if (await _userRepository.GetByIdAsync(command.UserId) is null) 
         {
-            throw new UserNotExistException();
+            throw new UserDoesNotExistException();
         }
 
-        var budget = new Budget(command.Month, command.Category, command.Income, command.Expenses, command.Shared);
+        var category = await _budgetRepository.GetCategoryById(command.CategoryId);
+        if (category is null) 
+        { 
+            throw new CategoryDoesNotExistException();
+        }
+
+        var budget = new Budget(Guid.NewGuid(), command.UserId, category.Id, command.Month, command.Income, command.Expenses, command.Shared);
 
         await _budgetRepository.AddAsync(budget, command.UserId);
     }

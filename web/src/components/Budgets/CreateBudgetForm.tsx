@@ -8,11 +8,15 @@ import {
 
 import "./Budgets.css";
 
-function CreateBudgetForm({ onCancel, onCreate }: CreateBudgetFormProps) {
+function CreateBudgetForm({
+  onCancel,
+  onCreate,
+  categories,
+}: CreateBudgetFormProps) {
   const { auth } = useAuth();
 
   const [month, setMonth] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(0);
   const [income, setIncome] = useState(0);
   const [expenses, setExpenses] = useState(0);
   const [shared, setShared] = useState(false);
@@ -26,7 +30,7 @@ function CreateBudgetForm({ onCancel, onCreate }: CreateBudgetFormProps) {
     e.preventDefault();
     const newBudget: CreateNewBudget = {
       month: month,
-      category: category,
+      categoryId: category,
       income: income,
       expenses: expenses,
       shared: shared,
@@ -78,14 +82,20 @@ function CreateBudgetForm({ onCancel, onCreate }: CreateBudgetFormProps) {
                 <label htmlFor="category">Category:</label>
               </td>
               <td>
-                <input
-                  type="text"
-                  id="category"
-                  autoComplete="off"
-                  onChange={(e) => setCategory(e.target.value)}
-                  value={category}
-                  required
-                />
+                <select
+                  id="user-select"
+                  value={category || ""}
+                  onChange={(e) => setCategory(parseInt(e.target.value))}
+                >
+                  <option>Select Category</option>
+                  {Object.entries(categories).map(([value, label]) => {
+                    return (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    );
+                  })}
+                </select>
               </td>
             </tr>
             <tr>

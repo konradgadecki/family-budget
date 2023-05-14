@@ -16,6 +16,7 @@ public static class Extensions
         services.AddScoped<ICommandHandler<SignUp>, SignUpHandler>();
         services.AddScoped<ICommandHandler<CreateBudget>, CreateBudgetHandler>();
         services.AddScoped<IQueryHandler<FetchBudgets, IEnumerable<BudgetsDto>>, FetchBudgetsHandler>();
+        services.AddScoped<IQueryHandler<FetchCategories, IEnumerable<CategoryDto>>, FetchCategoriesHandler>();
 
         return services;
     }

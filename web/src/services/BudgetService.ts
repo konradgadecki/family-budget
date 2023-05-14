@@ -1,6 +1,10 @@
 import { AxiosResponse } from "axios";
 import axios from "../api/axios";
-import { CREATE_BUDGET, FETCH_BUDGETS } from "../utils/navigation";
+import {
+  CREATE_BUDGET,
+  FETCH_BUDGETS,
+  FETCH_CATEGORIES,
+} from "../utils/navigation";
 import { CreateNewBudget } from "../types/componentTypes";
 
 export const fetchBudgets = async (
@@ -9,6 +13,26 @@ export const fetchBudgets = async (
 ) => {
   try {
     const response: AxiosResponse = await axios.get(FETCH_BUDGETS, {
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      withCredentials: true,
+      signal: controller.signal,
+    });
+
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const fetchCategories = async (
+  token: string | undefined,
+  controller: AbortController
+) => {
+  try {
+    const response: AxiosResponse = await axios.get(FETCH_CATEGORIES, {
       headers: {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),

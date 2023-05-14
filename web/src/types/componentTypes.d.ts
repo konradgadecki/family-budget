@@ -2,7 +2,7 @@ import { SortDirection } from "./utilsTypes";
 
 export type CreateNewBudget = {
   month: string;
-  category: string;
+  categoryId: number;
   income: number;
   expenses: number;
   shared: boolean;
@@ -10,7 +10,7 @@ export type CreateNewBudget = {
 
 export type Budget = {
   month: string;
-  category: string;
+  categoryId: number;
   income: number;
   expenses: number;
   netIncome: number;
@@ -27,9 +27,15 @@ export type UserBudgets = {
   budgets: Budget[];
 };
 
+export type Category = {
+  id: number;
+  name: string;
+};
+
 export type CreateBudgetFormProps = {
   onCancel: () => void;
   onCreate: (budget: Budget) => void;
+  categories: Record<number, string>;
 };
 
 export type SortConfig = {
@@ -37,4 +43,7 @@ export type SortConfig = {
   direction: SortDirection;
 };
 
-export type BudgetTableProps = { budgets: Array<Budget> };
+export type BudgetTableProps = {
+  budgets: Array<Budget>;
+  categories: Record<number, string>;
+};

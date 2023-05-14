@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { AxiosResponse } from "axios";
 import BudgetTable from "./BudgetTable";
-import { fetchBudgets } from "../../services/BudgetService";
+import { fetchBudgets, fetchCategories } from "../../services/BudgetService";
 import CreateBudgetForm from "./CreateBudgetForm";
-import { Budget, UserBudgets } from "../../types/componentTypes";
+import { Budget, Category, UserBudgets } from "../../types/componentTypes";
 
 import "./Budgets.css";
 
 const Budgets = () => {
   const { auth } = useAuth();
   const [budgets, setBudgets] = useState<UserBudgets[]>([]);
+  const [categories, setCategories] = useState<Record<number, string>>({});
+
   const [createNew, setCreateNew] = useState<boolean>(false);
 
   const [selectedUser, setSelectedUser] = useState<UserBudgets | undefined>();
@@ -45,7 +47,28 @@ const Budgets = () => {
         console.error(error);
       }
     };
+    const getCategories = async () => {
+      try {
+        let response: AxiosResponse<Category[], any> = await fetchCategories(
+          auth.accessToken,
+          requestController
+        );
 
+        const categoriesNameById: Record<number, string> = response.data.reduce(
+          (agg, curr) => {
+            agg[curr.id] = curr.name;
+            return agg;
+          },
+          {} as Record<number, string>
+        );
+
+        setCategories(categoriesNameById);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getCategories();
     getBudgets();
 
     return () => {
@@ -85,8 +108,8 @@ const Budgets = () => {
         value={selectedUserEmail || ""}
         onChange={handleUserChange}
       >
-        {budgets.map((budgets) => {
-          const userEmail = budgets.user.email;
+        {budgets.map((userBudgets) => {
+          const userEmail = userBudgets.user.email;
 
           return (
             <option key={userEmail} value={userEmail}>
@@ -114,6 +137,7 @@ const Budgets = () => {
           <CreateBudgetForm
             onCancel={() => setCreateNew(false)}
             onCreate={createNewBudget}
+            categories={categories}
           />
         ) : (
           <>
@@ -121,7 +145,12 @@ const Budgets = () => {
               <button onClick={() => setCreateNew(true)}>Create</button>
             )}
             <div className="table-container">
-              {selectedUser && <BudgetTable budgets={selectedUser.budgets} />}
+              {selectedUser && (
+                <BudgetTable
+                  budgets={selectedUser.budgets}
+                  categories={categories}
+                />
+              )}
             </div>
           </>
         )}
