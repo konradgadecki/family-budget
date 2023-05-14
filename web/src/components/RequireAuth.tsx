@@ -1,10 +1,7 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { NAVIGATION } from "../utils/navigation";
-
-type RequireAuthProps = {
-  allowedRoles: Array<number>;
-};
+import { RequireAuthProps } from "../types/apiTypes";
 
 const RequireAuth = ({ allowedRoles }: RequireAuthProps) => {
   const { auth } = useAuth();

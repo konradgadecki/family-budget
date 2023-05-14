@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import axios from "../api/axios";
 import { CREATE_BUDGET, FETCH_BUDGETS } from "../utils/navigation";
+import { CreateNewBudget } from "../types/componentTypes";
 
 export const fetchBudgets = async (
   token: string | undefined,
@@ -23,17 +24,13 @@ export const fetchBudgets = async (
 };
 
 export const createBudget = async (
-  month: string,
-  category: string,
-  income: number,
-  expenses: number,
-  shared: boolean,
+  newBudget: CreateNewBudget,
   token: string | undefined
 ) => {
   try {
     const response: AxiosResponse = await axios.post(
       CREATE_BUDGET,
-      JSON.stringify({ month, category, income, expenses, shared }),
+      JSON.stringify(newBudget),
       {
         headers: {
           "Content-Type": "application/json",

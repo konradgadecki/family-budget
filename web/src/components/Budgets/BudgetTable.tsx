@@ -1,17 +1,17 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import "./BudgetTable.css";
-import { Budget } from "./Budgets";
+import { ChangeEvent, useEffect, useState } from "react";
 import { DOWN_ARROW, UP_ARROW } from "../../utils/constants";
+import {
+  Budget,
+  BudgetTableProps,
+  SortConfig,
+} from "../../types/componentTypes";
+import { SortDirection } from "../../types/utilsTypes";
 
-type SortDirection = "asc" | "desc";
+import "./Budgets.css";
 
-type SortConfig = {
-  key: keyof Budget;
-  direction: SortDirection;
-};
-
-function BudgetTable({ budgets }: { budgets: Array<Budget> }) {
-  const [filteredBudgets, setFilteredBudgets] = useState<Budget[]>(budgets);
+function BudgetTable({ budgets }: BudgetTableProps) {
+  const [filteredBudgets, setFilteredBudgets] =
+    useState<Array<Budget>>(budgets);
   const [filterValue, setFilterValue] = useState("");
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "month",

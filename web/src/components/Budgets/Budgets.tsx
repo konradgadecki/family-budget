@@ -1,39 +1,17 @@
-import { FormEvent, useEffect, useState } from "react";
-import { createBudget, fetchBudgets } from "../../services/BudgetService";
+import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import BudgetTable from "./BudgetTable";
-import "./BudgetTable.css";
 import { AxiosResponse } from "axios";
+import BudgetTable from "./BudgetTable";
+import { fetchBudgets } from "../../services/BudgetService";
+import CreateBudgetForm from "./CreateBudgetForm";
+import { Budget, UserBudgets } from "../../types/componentTypes";
 
-export type Budget = {
-  month: string;
-  category: string;
-  income: number;
-  expenses: number;
-  netIncome: number;
-  shared: boolean;
-};
-
-type User = {
-  id: string;
-  email: string;
-};
-
-type UserBudgets = {
-  user: User;
-  budgets: Budget[];
-};
+import "./Budgets.css";
 
 const Budgets = () => {
   const { auth } = useAuth();
   const [budgets, setBudgets] = useState<UserBudgets[]>([]);
-  const [errMsg, setErrMsg] = useState("");
   const [createNew, setCreateNew] = useState<boolean>(false);
-  const [month, setMonth] = useState("");
-  const [category, setCategory] = useState("");
-  const [income, setIncome] = useState(0);
-  const [expenses, setExpenses] = useState(0);
-  const [shared, setShared] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState<UserBudgets | undefined>();
 
@@ -75,67 +53,31 @@ const Budgets = () => {
     };
   }, []);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const createNewBudget = (newBudget: Budget) => {
+    setBudgets((prev) => {
+      const updatedBudgets = prev.map((budgetsData) => {
+        if (budgetsData.user.email === auth.email) {
+          const updatedBudget = {
+            ...budgetsData,
+            budgets: [...budgetsData.budgets, newBudget],
+          };
 
-    try {
-      await createBudget(
-        month,
-        category,
-        income,
-        expenses,
-        shared,
-        auth.accessToken
-      );
-
-      setBudgets((prev) => {
-        const updatedBudgets = prev.map((budgetsData) => {
-          if (budgetsData.user.email === auth.email) {
-            const newBudget: Budget = {
-              month: month,
-              category: category,
-              income: income,
-              expenses: expenses,
-              netIncome: income - expenses,
-              shared: shared,
-            };
-            const updatedBudget = {
-              ...budgetsData,
-              budgets: [...budgetsData.budgets, newBudget],
-            };
-
-            setSelectedUser(updatedBudget);
-            return updatedBudget;
-          }
-          return budgetsData;
-        });
-
-        return updatedBudgets;
+          setSelectedUser(updatedBudget);
+          return updatedBudget;
+        }
+        return budgetsData;
       });
 
-      setMonth("");
-      setCategory("");
-      setIncome(0);
-      setExpenses(0);
-      setShared(false);
-      setCreateNew(false);
-    } catch (err) {
-      setErrMsg("Error has occured");
-    }
-  };
+      return updatedBudgets;
+    });
 
-  const selectedUserEmail = selectedUser?.user.email;
-  const onCancelClicked = () => {
-    setErrMsg("");
-    setMonth("");
-    setCategory("");
-    setIncome(0);
-    setExpenses(0);
-    setShared(false);
     setCreateNew(false);
   };
 
-  const renderSelectUser = () => (
+  const selectedUserEmail = selectedUser?.user.email;
+  const isMe = selectedUserEmail === auth.email;
+
+  const RenderUsersDropdown = () => (
     <div>
       <label htmlFor="user-select">Select User: </label>
       <select
@@ -156,117 +98,23 @@ const Budgets = () => {
     </div>
   );
 
+  const BudgetsForLabel = () => (
+    <h2>
+      {`Budgets for: `}
+      {isMe ? "me" : selectedUserEmail}
+    </h2>
+  );
+
   return (
     <>
-      {renderSelectUser()}
-
+      <RenderUsersDropdown />
       <div>
-        <h1>
-          Budgets for{" "}
-          {selectedUserEmail === auth.email ? "myselft" : selectedUserEmail}
-        </h1>
+        <BudgetsForLabel />
         {createNew ? (
-          <>
-            <p
-              className={errMsg ? "errorMessage" : "offscreen"}
-              aria-live="assertive"
-            >
-              {errMsg}
-            </p>
-            <button
-              className="cancel-budget-button"
-              onClick={() => onCancelClicked()}
-            >
-              Cancel
-            </button>
-            <form onSubmit={handleSubmit} className="form-container">
-              <h2 className="create-budget-heading">Create new Budget</h2>
-              <table className="create-budget-table">
-                <tbody>
-                  <tr>
-                    <td>
-                      <label htmlFor="month">Month:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="month"
-                        autoComplete="off"
-                        onChange={(e) => setMonth(e.target.value)}
-                        value={month}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="category">Category:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="category"
-                        autoComplete="off"
-                        onChange={(e) => setCategory(e.target.value)}
-                        value={category}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="income">Income:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        id="income"
-                        autoComplete="off"
-                        onChange={(e) => setIncome(parseInt(e.target.value))}
-                        value={income}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="expenses">Expenses:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        id="expenses"
-                        autoComplete="off"
-                        onChange={(e) => setExpenses(parseInt(e.target.value))}
-                        value={expenses}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="shared">Shared:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="checkbox"
-                        id="shared"
-                        autoComplete="off"
-                        onChange={(e) => setShared(e.target.checked)}
-                        checked={shared}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div className="create-button">
-                <button disabled={!month || !category || !!errMsg}>
-                  Create
-                </button>
-              </div>
-            </form>
-          </>
+          <CreateBudgetForm
+            onCancel={() => setCreateNew(false)}
+            onCreate={createNewBudget}
+          />
         ) : (
           <>
             {auth.email === selectedUserEmail && (
