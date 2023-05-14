@@ -24,4 +24,8 @@
 		<ProjectReference Include="..\..\src\FamilyBudget.Api\FamilyBudget.Api.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Entities\" />
+	</ItemGroup>
+
 </Project>
