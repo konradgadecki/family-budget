@@ -2,13 +2,12 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS publish
 WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS base
-WORKDIR /src
+WORKDIR /backend
 COPY ./src/ ./src
+COPY ./tests/ ./tests
 COPY FamilyBudget.sln ./
 
-RUN dotnet restore
-# RUN dotnet build "FamilyBudget.csproj" -c Release -o /app/build
- 
+RUN dotnet restore 
 RUN dotnet publish -c Release -o /app/out
 
 FROM base AS final

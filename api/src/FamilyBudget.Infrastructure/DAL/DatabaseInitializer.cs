@@ -13,9 +13,6 @@ internal sealed class DatabaseInitializer : IHostedService
     private readonly IServiceProvider _serviceProvider;
     private readonly IClock _clock;
 
-    private const string PASSWORD = "AQAAAAIAAYagAAAAENLG7z25ckkVhX58acf0u5UkUacf2xdp4YfBoi1uoSGQ3f9raKXYFalMdocIAkhxRA=="; //password
-    private const string KOGA_PASS = "AQAAAAIAAYagAAAAED7fGHRSw/TWJETt3oh3wEOyo5oHUVHmZEm/s3AFxA7QkA8Y/BQjCIdjgnLTVogm2w==";
-
     public DatabaseInitializer(IServiceProvider serviceProvider, IClock clock)
     {
         _serviceProvider = serviceProvider;
@@ -27,17 +24,20 @@ internal sealed class DatabaseInitializer : IHostedService
         using var scope = _serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<FamilyBudgetDbContext>();
 
-        var isCreated = await dbContext.Database.EnsureCreatedAsync();
-        if( isCreated)
+        var migrations = await dbContext.Database.GetAppliedMigrationsAsync(cancellationToken);
+
+        if (!migrations.Any(x => x.Contains("Init")))
         {
             await dbContext.Database.MigrateAsync(cancellationToken);
-
+            await Initialize(dbContext, cancellationToken);
         }
-        await Initialize(dbContext, cancellationToken);
     }
 
     private async Task Initialize(FamilyBudgetDbContext dbContext, CancellationToken cancellationToken)
     {
+        const string PASSWORD = "AQAAAAIAAYagAAAAENLG7z25ckkVhX58acf0u5UkUacf2xdp4YfBoi1uoSGQ3f9raKXYFalMdocIAkhxRA=="; //password
+        const string KOGA_PASS = "AQAAAAIAAYagAAAAED7fGHRSw/TWJETt3oh3wEOyo5oHUVHmZEm/s3AFxA7QkA8Y/BQjCIdjgnLTVogm2w==";
+
         if (!await dbContext.Categories.AnyAsync(cancellationToken))
         {
             var categories = new List<Category>()
