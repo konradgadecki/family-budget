@@ -14,6 +14,6 @@ FROM base AS final
 # WORKDIR /app 
 COPY  --from=base /app/out .
 
-EXPOSE 5018/tcp
+EXPOSE 5000/tcp
 ENTRYPOINT ["dotnet", "FamilyBudget.Api.dll"]
  

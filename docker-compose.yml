@@ -13,6 +13,8 @@ services:
       - 5432:5432
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - my-network
 
   api:
     depends_on: 
@@ -23,7 +25,9 @@ services:
     container_name: familybudgetapi
     restart: unless-stopped
     ports:
-      - 5018:5018
+      - 5000:5000
+    networks:
+      - my-network
 
   web: 
     build:
@@ -32,11 +36,16 @@ services:
     container_name: familybudgetweb
     restart: unless-stopped
     ports:
-      - 3000:80  
+      - 3000:80 
+    networks:
+      - my-network 
      
 
 volumes:
   postgres:
     driver: local
+
+networks:
+  my-network:
 
  

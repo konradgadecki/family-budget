@@ -8,7 +8,7 @@ namespace FamilyBudget.Infrastructure.DAL;
 
 internal static class Extensions
 {
-    private const string PostgresConnString = "Server=host.docker.internal;Database=FamilyBudget;Username=postgres;Password=";
+    private const string PostgresConnString = "Server=postgres;Host=postgres;Database=FamilyBudget;Username=postgres;Password=";
 
     public static IServiceCollection AddDatabase(this IServiceCollection services)
     {    
