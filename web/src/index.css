@@ -171,3 +171,9 @@ button {
   .sign-in-button:hover {
     background-color: #45a049;
   }
+  
+  .sign-out {
+    position: fixed;
+    top: 0;
+    right: 20px;
+  }

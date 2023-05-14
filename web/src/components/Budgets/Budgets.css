@@ -1,3 +1,8 @@
+.budget-table-container {
+  max-height: calc(100vh - 400px);
+  overflow-y: auto;
+}
+
 .budget-table {
   width: 100%;
   border-collapse: collapse;
@@ -105,3 +110,10 @@
   width: auto;
   margin-left: 5px;
 } 
+
+.user-select {
+  position: fixed;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  top: 20px;
+}

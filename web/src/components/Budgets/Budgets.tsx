@@ -101,7 +101,7 @@ const Budgets = () => {
   const isMe = selectedUserEmail === auth.email;
 
   const RenderUsersDropdown = () => (
-    <div>
+    <div className="user-select">
       <label htmlFor="user-select">Select User: </label>
       <select
         id="user-select"

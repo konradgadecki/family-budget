@@ -14,10 +14,10 @@ const Home = () => {
 
   return (
     <>
+      <div className="sign-out">
+        <button onClick={logout}>Sign Out</button>
+      </div>
       <Budgets />
-      <br />
-      <br />
-      <button onClick={logout}>Sign Out</button>
     </>
   );
 };

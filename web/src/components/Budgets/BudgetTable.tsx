@@ -75,46 +75,48 @@ function BudgetTable({ budgets, categories }: BudgetTableProps) {
         value={filterValue}
         onChange={handleFilterChange}
       />
-      <table className="budget-table">
-        <thead>
-          <tr>
-            <th onClick={() => handleSort("month")}>
-              Month {renderSortIndicator("month")}
-            </th>
-            <th onClick={() => handleSort("categoryId")}>
-              Category {renderSortIndicator("categoryId")}
-            </th>
-            <th onClick={() => handleSort("income")}>
-              Income {renderSortIndicator("income")}
-            </th>
-            <th onClick={() => handleSort("expenses")}>
-              Expenses {renderSortIndicator("expenses")}
-            </th>
-            <th onClick={() => handleSort("netIncome")}>
-              Net Income {renderSortIndicator("netIncome")}
-            </th>
-            <th>Shared</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredBudgets.map((budget, index) => (
-            <tr key={index}>
-              <td>{budget.month}</td>
-              <td>{categories[budget.categoryId]}</td>
-              <td>{budget.income}</td>
-              <td>{budget.expenses}</td>
-              <td
-                className={
-                  budget.netIncome < 0 ? "negative-income" : "positive-income"
-                }
-              >
-                {budget.netIncome}
-              </td>
-              <td>{budget.shared ? "yes" : "no"}</td>
+      <div className="budget-table-container">
+        <table className="budget-table">
+          <thead>
+            <tr>
+              <th onClick={() => handleSort("month")}>
+                Month {renderSortIndicator("month")}
+              </th>
+              <th onClick={() => handleSort("categoryId")}>
+                Category {renderSortIndicator("categoryId")}
+              </th>
+              <th onClick={() => handleSort("income")}>
+                Income {renderSortIndicator("income")}
+              </th>
+              <th onClick={() => handleSort("expenses")}>
+                Expenses {renderSortIndicator("expenses")}
+              </th>
+              <th onClick={() => handleSort("netIncome")}>
+                Net Income {renderSortIndicator("netIncome")}
+              </th>
+              <th>Shared</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredBudgets.map((budget, index) => (
+              <tr key={index}>
+                <td>{budget.month}</td>
+                <td>{categories[budget.categoryId]}</td>
+                <td>{budget.income}</td>
+                <td>{budget.expenses}</td>
+                <td
+                  className={
+                    budget.netIncome < 0 ? "negative-income" : "positive-income"
+                  }
+                >
+                  {budget.netIncome}
+                </td>
+                <td>{budget.shared ? "yes" : "no"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
