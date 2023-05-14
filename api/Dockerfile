@@ -14,6 +14,7 @@ FROM base AS final
 # WORKDIR /app 
 COPY  --from=base /app/out .
 
+ENV ASPNETCORE_URLS=http://*:5000
 EXPOSE 5000/tcp
 ENTRYPOINT ["dotnet", "FamilyBudget.Api.dll"]
  
