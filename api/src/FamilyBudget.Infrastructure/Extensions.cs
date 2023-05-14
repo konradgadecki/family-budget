@@ -8,6 +8,7 @@ using FamilyBudget.Core.Entities;
 using FamilyBudget.Core.Repositories;
 using FamilyBudget.Infrastructure.Auth;
 using FamilyBudget.Infrastructure.DAL.Repository;
+using FamilyBudget.Infrastructure.DAL;
 
 namespace FamilyBudget.Infrastructure;
 
@@ -30,6 +31,8 @@ public static class Extensions
         services.AddEndpointsApiExplorer();
         services.AddHttpContextAccessor();
 
+        services.AddDatabase();
+
         services.AddSwaggerGen(swagger =>
         {
             swagger.EnableAnnotations();
@@ -44,8 +47,9 @@ public static class Extensions
         services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
         services.AddSingleton<IPasswordManager, PasswordManager>();
         services.AddSingleton<IClock, Clock>();
-        services.AddSingleton<IBudgetRepository, InMemoryBudgetRepository>();
-        services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+        //services.AddScoped<IBudgetRepository, InMemoryBudgetRepository>();
+        //services.AddSingleton<IBudgetRepository, InMemoryBudgetRepository>();
+        //services.AddSingleton<IUserRepository, InMemoryUserRepository>();
         services.AddAuth();
 
         return services;
