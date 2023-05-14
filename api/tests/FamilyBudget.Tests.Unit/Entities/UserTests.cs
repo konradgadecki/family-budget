@@ -50,5 +50,28 @@ public class UserTests
         var exception = Record.Exception(() => new User(Guid.NewGuid(), "email@email.com", "somepass", rightRole, DateTime.Now));
 
         exception.ShouldBeNull();
+        exception.ShouldNotBeOfType<InvalidRoleException>();
+    }
+
+    [Fact]
+    public void given_user_for_wrong_password_should_fail()
+    {
+        var wrongPassword = "pass";
+
+        var exception = Record.Exception(() => new User(Guid.NewGuid(), "email@email.com", wrongPassword, "admin", DateTime.Now));
+
+        exception.ShouldNotBeNull();
+        exception.ShouldBeOfType<InvalidPasswordException>();
+    }
+
+    [Fact]
+    public void given_user_for_right_password_should_success()
+    {
+        var rightPassword = "pass@#$@!$@WQE";
+
+        var exception = Record.Exception(() => new User(Guid.NewGuid(), "email@email.com", rightPassword, "admin", DateTime.Now));
+
+        exception.ShouldBeNull();
+        exception.ShouldNotBeOfType<InvalidPasswordException>();
     }
 }
