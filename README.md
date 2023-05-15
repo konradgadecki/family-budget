@@ -3,7 +3,10 @@ Web app for creating a list of any number of budgets and share it with any numbe
  
  ## Quick start
 
-The startup application consists of three parts: frontend, backend, and database. Users can create their own accounts and log in to the app using one of the following accounts: marek@gmail.com or karol@gmail.com.
+The startup application consists of three parts: frontend, backend, and database. Users can create their own accounts and log in to the app using one of the following accounts:  
+  
+`marek@gmail.com/password`  
+`karol@gmail.com/password`
 
 #### Prerequisites
 
